@@ -12,10 +12,10 @@ Installing this plugin will hide invalid preauth attempts after 5 failures, and 
 # Installation
 Download the latest [Release](https://github.com/CedModV2/PreAuthSpamStopper/releases)
 Put `PreAuthSpamStopper.dll` in `.config/SCP Secret Laboratory/LabAPI/plugins/global` on linux.  
-or `.%appdata%/SCP Secret Laboratory/LabAPI/plugins/global` on windows.  
+or `%appdata%/SCP Secret Laboratory/LabAPI/plugins/global` on windows.  
 
 If you do not have harmonly installed, put `0Harmonly.dll` in 
 in `.config/SCP Secret Laboratory/LabAPI/dependencies/global` on linux.  
-or `.%appdata%/SCP Secret Laboratory/LabAPI/dependencies/global` on windows.  
+or `%appdata%/SCP Secret Laboratory/LabAPI/dependencies/global` on windows.  
 
 Restart the server, thats it.
