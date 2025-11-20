@@ -33,5 +33,6 @@ namespace PreAuthSpamStopper
         public override string Author { get; } = "Ced777ric";
         public override Version Version { get; } = new Version(1, 0, 0);
         public override Version RequiredApiVersion { get; } = new Version(1, 0, 0);
+        public override bool IsTransparent { get; } = true;
     }
 }
