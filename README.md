@@ -18,4 +18,9 @@ If you do not have harmonly installed, put `0Harmonly.dll` in
 in `.config/SCP Secret Laboratory/LabAPI/dependencies/global` on linux.  
 or `%appdata%/SCP Secret Laboratory/LabAPI/dependencies/global` on windows.  
 
+
+> [!TIP]
+> If you are not using any other plugins, you can hide the Modded tag by setting.  
+> `transparently_modded_server` to true in config_gameplay.txt (you may need to add the setting first).
+
 Restart the server, thats it.
