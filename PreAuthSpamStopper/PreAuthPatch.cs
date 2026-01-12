@@ -25,8 +25,11 @@ namespace CedMod.Addons.QuerySystem.Patches
         {
             List<CodeInstruction> newInstructions = ListPool<CodeInstruction>.Shared.Rent(codeInstructions);
 
-            int offset = 9;
-            int index = newInstructions.FindIndex(x => x.opcode == OpCodes.Ldsfld && x.operand is FieldInfo { Name: "UseChallenge" }) + offset;
+            int index = newInstructions.FindIndex(ci =>
+                ci.opcode == OpCodes.Call &&
+                ci.operand is MethodInfo mi &&
+                mi.Name == "get_DelayConnections"
+            );
             
             Label ret = generator.DefineLabel();
             
