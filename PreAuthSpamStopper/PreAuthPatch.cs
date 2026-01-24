@@ -64,16 +64,18 @@ namespace CedMod.Addons.QuerySystem.Patches
             var preauthdata = PreAuthModel.ReadPreAuth(reader);
             if (preauthdata == null)
             {
-                CustomLiteNetLib4MirrorTransport.RequestWriter.Reset();
-                CustomLiteNetLib4MirrorTransport.RequestWriter.Put((byte)RejectionReason.Custom);
-                CustomLiteNetLib4MirrorTransport.RequestWriter.Put($"[PreAuthSpamStopper]\nYour connection has been rejected as the 'PreAuth' data sent from your client appears to be invalid, please restart your game or run 'ar' in your client console, You can usually open the client console by pressing ` or ~");
-
                 CustomLiteNetLib4MirrorTransport.Rejected++;
                 if (CustomLiteNetLib4MirrorTransport.Rejected > CustomLiteNetLib4MirrorTransport.RejectionThreshold)
                     CustomLiteNetLib4MirrorTransport.SuppressRejections = true;
 
                 if (!CustomLiteNetLib4MirrorTransport.SuppressRejections && CustomLiteNetLib4MirrorTransport.DisplayPreauthLogs && Rejected <= 5)
+                {
+                    CustomLiteNetLib4MirrorTransport.RequestWriter.Reset();
+                    CustomLiteNetLib4MirrorTransport.RequestWriter.Put((byte)RejectionReason.Custom);
+                    CustomLiteNetLib4MirrorTransport.RequestWriter.Put($"[PreAuthSpamStopper]\nYour connection has been rejected as the 'PreAuth' data sent from your client appears to be invalid, please restart your game or run 'ar' in your client console, You can usually open the client console by pressing ` or ~");
+                    request.RejectForce(CustomLiteNetLib4MirrorTransport.RequestWriter);
                     ServerConsole.AddLog($"Security challenge response of incoming connection from endpoint {request.RemoteEndPoint} has been CustomLiteNetLib4MirrorTransport.Rejected (Failed extra PreAuthSpamStopper verification 1).");
+                }
 
                 LastRejected = DateTime.UtcNow;
                 Rejected++;
@@ -82,17 +84,18 @@ namespace CedMod.Addons.QuerySystem.Patches
 
             if (PlayerAuthenticationManager.OnlineMode && !ECDSA.VerifyBytes($"{preauthdata.UserID};{preauthdata.Flags};{preauthdata.Region};{preauthdata.Expiration}", preauthdata.Signature, ServerConsole.PublicKey))
             {
-                CustomLiteNetLib4MirrorTransport.RequestWriter.Reset();
-                CustomLiteNetLib4MirrorTransport.RequestWriter.Put((byte)RejectionReason.Custom);
-                CustomLiteNetLib4MirrorTransport.RequestWriter.Put($"[PreAuthSpamStopper]\nYour connection has been rejected as the 'PreAuth' data sent from your client appears to be invalid, please restart your game or run 'ar' in your client console, You can usually open the client console by pressing ` or ~");
-                request.RejectForce(CustomLiteNetLib4MirrorTransport.RequestWriter);
-
                 CustomLiteNetLib4MirrorTransport.Rejected++;
                 if (CustomLiteNetLib4MirrorTransport.Rejected > CustomLiteNetLib4MirrorTransport.RejectionThreshold)
                     CustomLiteNetLib4MirrorTransport.SuppressRejections = true;
 
                 if (!CustomLiteNetLib4MirrorTransport.SuppressRejections && CustomLiteNetLib4MirrorTransport.DisplayPreauthLogs && Rejected <= 5)
+                {
+                    CustomLiteNetLib4MirrorTransport.RequestWriter.Reset();
+                    CustomLiteNetLib4MirrorTransport.RequestWriter.Put((byte)RejectionReason.Custom);
+                    CustomLiteNetLib4MirrorTransport.RequestWriter.Put($"[PreAuthSpamStopper]\nYour connection has been rejected as the 'PreAuth' data sent from your client appears to be invalid, please restart your game or run 'ar' in your client console, You can usually open the client console by pressing ` or ~");
+                    request.RejectForce(CustomLiteNetLib4MirrorTransport.RequestWriter);
                     ServerConsole.AddLog($"Security challenge response of incoming connection from endpoint {request.RemoteEndPoint} has been CustomLiteNetLib4MirrorTransport.Rejected (Failed extra PreAuthSpamStopper verification 2).");
+                }
                 
                 LastRejected = DateTime.UtcNow;
                 Rejected++;
